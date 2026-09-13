@@ -11,7 +11,7 @@ package com.mycompany.manajemensistemklinik;
 public class Main {
     public static void main(String[] args) {
         System.out.println("========================================");
-        System.out.println(" SISTEM MANAJEMEN KLINIK - FONDASI AWAL ");
+        System.out.println(" SISTEM MANAJEMEN KLINIK ");
         System.out.println("========================================\n");
 
         Dokter dokter1 = new Dokter("D001", "Ayu Lestari", "Dokter Umum", "Senin-Jumat 08.00-14.00");
@@ -47,18 +47,35 @@ public class Main {
         System.out.println();
         janji2.tampilkanDetail();
 
-        System.out.println("\n=== Demonstrasi Encapsulation (Validasi Data) ===");
+        System.out.println("\n=== Simulasi Setter dengan Data VALID ===");
+
+        System.out.println("- Mengubah umur pasien1 menjadi 29 (valid):");
+        pasien1.setUmur(29);
+        System.out.println("  Umur pasien1 sekarang (via getter): " + pasien1.getUmur());
+
+        System.out.println("- Mengubah spesialisasi dokter1 menjadi 'Dokter Anak' (valid):");
+        dokter1.setSpesialisasi("Dokter Anak");
+        System.out.println("  Spesialisasi dokter1 sekarang (via getter): " + dokter1.getSpesialisasi());
+
+        System.out.println("- Mengubah status janji2 menjadi 'Menunggu' (valid):");
+        janji2.setStatus("Menunggu");
+        System.out.println("  Status janji2 sekarang (via getter): " + janji2.getStatus());
+
+        System.out.println("\n=== Simulasi Setter dengan Data TIDAK VALID ===");
 
         System.out.println("- Mencoba mengisi umur pasien1 dengan -5:");
         pasien1.setUmur(-5);
+        System.out.println("  Umur pasien1 setelah dicoba diubah (via getter, tetap aman): " + pasien1.getUmur());
 
         System.out.println("- Mencoba mengisi nama dokter2 dengan string kosong:");
         dokter2.setNama("");
+        System.out.println("  Nama dokter2 setelah dicoba diubah (via getter, tetap aman): " + dokter2.getNama());
 
         System.out.println("- Mencoba mengisi status janji1 dengan 'Terbang ke Bulan':");
         janji1.setStatus("Terbang ke Bulan");
+        System.out.println("  Status janji1 setelah dicoba diubah (via getter, tetap aman): " + janji1.getStatus());
 
-        System.out.println("\nData pasien1 setelah percobaan input tidak valid (tetap aman):");
+        System.out.println("\nData akhir pasien1 (dicek ulang via getter/tampilkanInfo):");
         pasien1.tampilkanInfo();
     }
 }
