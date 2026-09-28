@@ -1,21 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.manajemensistemklinik;
 
-/**
- *
- * @author HYPE
- */
 public class Main {
     public static void main(String[] args) {
         System.out.println("========================================");
         System.out.println(" SISTEM MANAJEMEN KLINIK ");
         System.out.println("========================================\n");
 
-        Dokter dokter1 = new Dokter("D001", "Ayu Lestari", "Dokter Umum", "Senin-Jumat 08.00-14.00");
-        Dokter dokter2 = new Dokter("D002", "Budi Santoso", "Dokter Gigi", "Selasa & Kamis 13.00-17.00");
+        // Constructor Dokter sekarang menerima umur & jenis kelamin (diwarisi dari Orang)
+        Dokter dokter1 = new Dokter("D001", "Ayu Lestari", 40, "Perempuan", "Dokter Umum", "Senin-Jumat 08.00-14.00");
+        Dokter dokter2 = new Dokter("D002", "Budi Santoso", 45, "Laki-laki", "Dokter Gigi", "Selasa & Kamis 13.00-17.00");
 
         dokter1.tampilkanInfo();
         System.out.println();
@@ -50,7 +43,7 @@ public class Main {
         System.out.println("\n=== Simulasi Setter dengan Data VALID ===");
 
         System.out.println("- Mengubah umur pasien1 menjadi 29 (valid):");
-        pasien1.setUmur(29);
+        pasien1.setUmur(29); // setUmur() diwarisi dari Orang
         System.out.println("  Umur pasien1 sekarang (via getter): " + pasien1.getUmur());
 
         System.out.println("- Mengubah spesialisasi dokter1 menjadi 'Dokter Anak' (valid):");
@@ -77,5 +70,27 @@ public class Main {
 
         System.out.println("\nData akhir pasien1 (dicek ulang via getter/tampilkanInfo):");
         pasien1.tampilkanInfo();
+
+        System.out.println("\n========================================");
+        System.out.println(" DEMO INHERITANCE & POLYMORPHISM ");
+        System.out.println("========================================");
+
+        Orang[] daftarOrang = {dokter1, dokter2, pasien1, pasien2};
+
+        for (Orang o : daftarOrang) {
+            System.out.println("\nPeran: " + o.getPeran()); 
+            o.tampilkanInfo();                              
+        }
+
+        System.out.println("\n=== Cek Tipe dengan instanceof ===");
+        for (Orang o : daftarOrang) {
+            if (o instanceof Dokter) {
+                Dokter d = (Dokter) o; 
+                System.out.println(d.getNama() + " adalah dokter, spesialisasi: " + d.getSpesialisasi());
+            } else if (o instanceof Pasien) {
+                Pasien p = (Pasien) o;
+                System.out.println(p.getNama() + " adalah pasien, keluhan: " + p.getKeluhan());
+            }
+        }
     }
 }

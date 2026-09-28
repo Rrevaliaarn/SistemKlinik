@@ -1,39 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.manajemensistemklinik;
 
 /**
- *
- * @author HYPE
+ * Subclass dari Orang (Inheritance).
  */
-public class Dokter {
+public class Dokter extends Orang {
     private String idDokter;
-    private String nama;
     private String spesialisasi;
     private String jadwalPraktik;
 
     public Dokter() {
+        super();
         this.idDokter = "-";
-        this.nama = "Belum diisi";
         this.spesialisasi = "Umum";
         this.jadwalPraktik = "Belum ditentukan";
     }
 
-    public Dokter(String idDokter, String nama, String spesialisasi, String jadwalPraktik) {
+    public Dokter(String idDokter, String nama, int umur, String jenisKelamin,
+                  String spesialisasi, String jadwalPraktik) {
+        super(nama, umur, jenisKelamin);
         this.idDokter = idDokter;
-        this.nama = nama;
         this.spesialisasi = spesialisasi;
         this.jadwalPraktik = jadwalPraktik;
     }
 
+    @Override
     public void tampilkanInfo() {
         System.out.println("=== Data Dokter ===");
         System.out.println("ID            : " + idDokter);
-        System.out.println("Nama          : dr. " + nama);
+        super.tampilkanInfo();
         System.out.println("Spesialisasi  : " + spesialisasi);
         System.out.println("Jadwal        : " + jadwalPraktik);
+    }
+
+    @Override
+    public String getPeran() {
+        return "Dokter";
     }
 
     public String getIdDokter() {
@@ -42,18 +43,6 @@ public class Dokter {
 
     public void setIdDokter(String idDokter) {
         this.idDokter = idDokter;
-    }
-
-    public String getNama() {
-        return nama;
-    }
-
-    public void setNama(String nama) {
-        if (nama == null || nama.trim().isEmpty()) {
-            System.out.println("Nama dokter tidak boleh kosong. Nama tidak diubah.");
-            return;
-        }
-        this.nama = nama;
     }
 
     public String getSpesialisasi() {
