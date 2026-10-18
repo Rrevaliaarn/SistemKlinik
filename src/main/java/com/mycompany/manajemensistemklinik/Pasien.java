@@ -1,37 +1,52 @@
 package com.mycompany.manajemensistemklinik;
 
 /**
- * Subclass dari Orang (Inheritance): nama, umur, jenisKelamin
- * diwarisi dari Orang, jadi tidak perlu ditulis ulang.
+ * Subclass Orang + implementasi interface Pelayanan.
+ * COMPOSITION: RekamMedis dibuat di constructor dan bersifat final.
  */
-public class Pasien extends Orang {
+public class Pasien extends Orang implements Pelayanan {
     private String idPasien;
     private String keluhan;
+    private final RekamMedis rekamMedis; // Composition
 
     public Pasien() {
-        super(); // memanggil constructor Orang()
+        super();
         this.idPasien = "-";
         this.keluhan = "-";
+        this.rekamMedis = new RekamMedis("RM-0000");
     }
 
     public Pasien(String idPasien, String nama, int umur, String jenisKelamin, String keluhan) {
-        super(nama, umur, jenisKelamin); // memanggil constructor Orang(...)
+        super(nama, umur, jenisKelamin);
         this.idPasien = idPasien;
         this.keluhan = keluhan;
+        this.rekamMedis = new RekamMedis("RM-" + idPasien); // dibuat bersamaan dengan pasien
     }
 
-    // Overriding: mengubah perilaku method milik Orang
     @Override
     public void tampilkanInfo() {
         System.out.println("=== Data Pasien ===");
         System.out.println("ID       : " + idPasien);
-        super.tampilkanInfo(); // pakai method induk untuk nama, umur, kelamin
+        super.tampilkanInfo();
         System.out.println("Keluhan  : " + keluhan);
     }
 
     @Override
     public String getPeran() {
         return "Pasien";
+    }
+
+    @Override
+    public void lakukanKegiatan() {
+        System.out.println(getNama() + " sedang menunggu pemeriksaan (keluhan: " + keluhan + ").");
+    }
+
+    public void tampilkanRekamMedis() {
+        rekamMedis.tampilkanRekamMedis();
+    }
+
+    public RekamMedis getRekamMedis() {
+        return rekamMedis;
     }
 
     public String getIdPasien() {
