@@ -1,21 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.manajemensistemklinik;
 
-/**
- *
- * @author HYPE
- */
 public class JanjiTemu {
     private String idJanjiTemu;
-    private Pasien pasien;   
-    private Dokter dokter;   
+    private Pasien pasien;
+    private Dokter dokter;
     private String tanggal;
     private String jamPraktik;
-    private String status;   
-    
+    private String status;
+
     public JanjiTemu() {
         this.idJanjiTemu = "-";
         this.pasien = new Pasien();
@@ -35,23 +27,22 @@ public class JanjiTemu {
     }
 
     public void tampilkanDetail() {
-        System.out.println("=== Detail Janji Temu ===");
-        System.out.println("ID Janji Temu : " + idJanjiTemu);
-        System.out.println("Pasien        : " + pasien.getNama());
-        System.out.println("Dokter        : dr. " + dokter.getNama() + " (" + dokter.getSpesialisasi() + ")");
-        System.out.println("Tanggal       : " + tanggal);
-        System.out.println("Jam           : " + jamPraktik);
-        System.out.println("Status        : " + status);
+        Tampilan.subjudul("Janji Temu " + idJanjiTemu);
+        Tampilan.baris("Pasien", pasien.getNama());
+        Tampilan.baris("Dokter", "dr. " + dokter.getNama() + " (" + dokter.getSpesialisasi() + ")");
+        Tampilan.baris("Tanggal", tanggal);
+        Tampilan.baris("Jam", jamPraktik);
+        Tampilan.baris("Status", status);
     }
 
     public void selesaikanJanjiTemu() {
         this.status = "Selesai";
-        System.out.println("Janji temu " + idJanjiTemu + " telah diselesaikan.");
+        Tampilan.sukses("Janji temu " + idJanjiTemu + " telah diselesaikan.");
     }
 
     public void batalkanJanjiTemu() {
         this.status = "Dibatalkan";
-        System.out.println("Janji temu " + idJanjiTemu + " telah dibatalkan.");
+        Tampilan.sukses("Janji temu " + idJanjiTemu + " telah dibatalkan.");
     }
 
     public String getIdJanjiTemu() {
@@ -102,7 +93,7 @@ public class JanjiTemu {
         if (!status.equalsIgnoreCase("Menunggu")
                 && !status.equalsIgnoreCase("Selesai")
                 && !status.equalsIgnoreCase("Dibatalkan")) {
-            System.out.println("Status tidak valid. Gunakan: Menunggu, Selesai, atau Dibatalkan.");
+            Tampilan.gagal("Status tidak valid. Gunakan: Menunggu, Selesai, atau Dibatalkan.");
             return;
         }
         this.status = status;

@@ -1,9 +1,9 @@
 package com.mycompany.manajemensistemklinik;
 
 public interface Pelayanan {
-    void lakukanKegiatan();
+    void lakukanKegiatan(); 
 
     default void tampilkanJadwal() {
-        System.out.println("Jadwal kegiatan belum ditentukan.");
+        Tampilan.info("Jadwal kegiatan belum ditentukan.");
     }
 }

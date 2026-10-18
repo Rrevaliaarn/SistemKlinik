@@ -1,10 +1,6 @@
 package com.mycompany.manajemensistemklinik;
 
-/**
- * Superclass (class induk): menyimpan atribut & perilaku yang
- * dimiliki bersama oleh Pasien dan Dokter.
- */
-public class Orang {
+public abstract class Orang {
     private String nama;
     private int umur;
     private String jenisKelamin;
@@ -21,14 +17,15 @@ public class Orang {
         this.jenisKelamin = jenisKelamin;
     }
 
-    public void tampilkanInfo() {
-        System.out.println("Nama     : " + nama);
-        System.out.println("Umur     : " + umur + " tahun");
-        System.out.println("Kelamin  : " + jenisKelamin);
-    }
+    // Abstract method: wajib di-override oleh subclass
+    public abstract String getPeran();
 
-    public String getPeran() {
-        return "Orang";
+    // Method konkret: dipakai bersama oleh semua subclass
+    public void tampilkanInfo() {
+        Tampilan.baris("Nama", nama);
+        Tampilan.baris("Umur", umur + " tahun");
+        Tampilan.baris("Jenis kelamin", jenisKelamin);
+        Tampilan.baris("Peran", getPeran()); // polimorfis
     }
 
     public String getNama() {
@@ -37,7 +34,7 @@ public class Orang {
 
     public void setNama(String nama) {
         if (nama == null || nama.trim().isEmpty()) {
-            System.out.println("Nama tidak boleh kosong. Nama tidak diubah.");
+            Tampilan.gagal("Nama tidak boleh kosong. Nama tidak diubah.");
             return;
         }
         this.nama = nama;
@@ -49,7 +46,7 @@ public class Orang {
 
     public void setUmur(int umur) {
         if (umur < 0 || umur > 130) {
-            System.out.println("Umur tidak valid. Umur tidak diubah.");
+            Tampilan.gagal("Umur tidak valid (harus 0-130). Umur tidak diubah.");
             return;
         }
         this.umur = umur;
@@ -60,8 +57,10 @@ public class Orang {
     }
 
     public void setJenisKelamin(String jenisKelamin) {
-        if (!jenisKelamin.equalsIgnoreCase("Laki-laki") && !jenisKelamin.equalsIgnoreCase("Perempuan")) {
-            System.out.println("Jenis kelamin harus 'Laki-laki' atau 'Perempuan'. Tidak diubah.");
+        if (jenisKelamin == null
+                || (!jenisKelamin.equalsIgnoreCase("Laki-laki")
+                && !jenisKelamin.equalsIgnoreCase("Perempuan"))) {
+            Tampilan.gagal("Jenis kelamin harus 'Laki-laki' atau 'Perempuan'. Tidak diubah.");
             return;
         }
         this.jenisKelamin = jenisKelamin;

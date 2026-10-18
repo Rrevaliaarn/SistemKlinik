@@ -1,184 +1,183 @@
 package com.mycompany.manajemensistemklinik;
 
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("========================================");
-        System.out.println(" SISTEM MANAJEMEN KLINIK ");
-        System.out.println("========================================\n");
+        DataKlinik.siapkanDataAwal();
 
-        Dokter dokter1 = new Dokter("D001", "Ayu Lestari", 40, "Perempuan", "Dokter Umum", "Senin-Jumat 08.00-14.00");
-        Dokter dokter2 = new Dokter("D002", "Budi Santoso", 45, "Laki-laki", "Dokter Gigi", "Selasa & Kamis 13.00-17.00");
-
-        dokter1.tampilkanInfo();
-        System.out.println();
-        dokter2.tampilkanInfo();
-        System.out.println();
-
-        // Composition (P8): RekamMedis otomatis dibuat bersama Pasien
-        Pasien pasien1 = new Pasien("P001", "Siti Rahma", 28, "Perempuan", "Demam dan batuk");
-        Pasien pasien2 = new Pasien("P002", "Andi Wijaya", 35, "Laki-laki", "Sakit gigi");
-        System.out.println();
-
-        pasien1.tampilkanInfo();
-        System.out.println();
-        pasien2.tampilkanInfo();
-        System.out.println();
-
-        JanjiTemu janji1 = new JanjiTemu("JT001", pasien1, dokter1, "15 September 2026", "09.00");
-        JanjiTemu janji2 = new JanjiTemu("JT002", pasien2, dokter2, "16 September 2026", "14.00");
-
-        janji1.tampilkanDetail();
-        System.out.println();
-        janji2.tampilkanDetail();
-        System.out.println();
-
-        janji1.selesaikanJanjiTemu();
-        janji2.batalkanJanjiTemu();
-
-        System.out.println();
-        System.out.println("=== Status Terbaru ===");
-        janji1.tampilkanDetail();
-        System.out.println();
-        janji2.tampilkanDetail();
-
-        System.out.println("\n=== Simulasi Setter dengan Data VALID ===");
-
-        System.out.println("- Mengubah umur pasien1 menjadi 29 (valid):");
-        pasien1.setUmur(29);
-        System.out.println("  Umur pasien1 sekarang (via getter): " + pasien1.getUmur());
-
-        System.out.println("- Mengubah spesialisasi dokter1 menjadi 'Dokter Anak' (valid):");
-        dokter1.setSpesialisasi("Dokter Anak");
-        System.out.println("  Spesialisasi dokter1 sekarang (via getter): " + dokter1.getSpesialisasi());
-
-        System.out.println("- Mengubah status janji2 menjadi 'Menunggu' (valid):");
-        janji2.setStatus("Menunggu");
-        System.out.println("  Status janji2 sekarang (via getter): " + janji2.getStatus());
-
-        System.out.println("\n=== Simulasi Setter dengan Data TIDAK VALID ===");
-
-        System.out.println("- Mencoba mengisi umur pasien1 dengan -5:");
-        pasien1.setUmur(-5);
-        System.out.println("  Umur pasien1 setelah dicoba diubah (via getter, tetap aman): " + pasien1.getUmur());
-
-        System.out.println("- Mencoba mengisi nama dokter2 dengan string kosong:");
-        dokter2.setNama("");
-        System.out.println("  Nama dokter2 setelah dicoba diubah (via getter, tetap aman): " + dokter2.getNama());
-
-        System.out.println("- Mencoba mengisi status janji1 dengan 'Terbang ke Bulan':");
-        janji1.setStatus("Terbang ke Bulan");
-        System.out.println("  Status janji1 setelah dicoba diubah (via getter, tetap aman): " + janji1.getStatus());
-
-        System.out.println("\nData akhir pasien1 (dicek ulang via getter/tampilkanInfo):");
-        pasien1.tampilkanInfo();
-
-        // ==================================================
-        // PERTEMUAN 6: INHERITANCE (instanceof)
-        // ==================================================
-        System.out.println("\n========================================");
-        System.out.println(" DEMO INHERITANCE & POLYMORPHISM ");
-        System.out.println("========================================");
-
-        // Orang orang = new Orang(); // ERROR: abstract class tidak bisa di-new
-
-        // Upcasting: array bertipe Orang menampung Dokter & Pasien
-        Orang[] daftarOrang = {dokter1, dokter2, pasien1, pasien2};
-
-        for (Orang o : daftarOrang) {
-            System.out.println("\nPeran: " + o.getPeran());
-            o.tampilkanInfo();
-        }
-
-        System.out.println("\n=== Cek Tipe dengan instanceof ===");
-        for (Orang o : daftarOrang) {
-            if (o instanceof Dokter) {
-                Dokter d = (Dokter) o;
-                System.out.println(d.getNama() + " adalah dokter, spesialisasi: " + d.getSpesialisasi());
-            } else if (o instanceof Pasien) {
-                Pasien p = (Pasien) o;
-                System.out.println(p.getNama() + " adalah pasien, keluhan: " + p.getKeluhan());
+        boolean jalan = true;
+        while (jalan) {
+            tampilkanMenu();
+            int pilihan = Input.angka(" Pilih menu: ", 0, 15);
+            switch (pilihan) {
+                case 1: daftarkanPasien(); break;
+                case 2: lihatDokter(); break;
+                case 3: lihatPasien(); break;
+                case 4: buatJanjiTemu(); break;
+                case 5: lihatJanjiTemu(); break;
+                case 6: ubahStatusJanji(); break;
+                case 7: periksaDanResep(); break;
+                case 8: lihatRekamMedis(); break;
+                case 9: DemoKonsep.classObject(); break;
+                case 10: DemoKonsep.encapsulation(); break;
+                case 11: DemoKonsep.inheritance(); break;
+                case 12: DemoKonsep.polymorphism(); break;
+                case 13: DemoKonsep.interfaceOverloading(); break;
+                case 14: DemoKonsep.exception(); break;
+                case 15: DemoKonsep.relasi(); break;
+                case 0:
+                    System.out.println("\n Terima kasih. Sampai jumpa!");
+                    jalan = false;
+                    break;
+            }
+            if (jalan) {
+                Input.tekanEnter();
             }
         }
+    }
 
-        // ==================================================
-        // PERTEMUAN 7: POLYMORPHISM & ABSTRACTION
-        // ==================================================
-        System.out.println("\n========================================");
-        System.out.println(" DEMO ABSTRACT CLASS & INTERFACE ");
-        System.out.println("========================================");
+    private static void tampilkanMenu() {
+        Tampilan.judul("Sistem Manajemen Klinik");
+        System.out.println(" FITUR KLINIK");
+        System.out.println("   1. Daftarkan pasien");
+        System.out.println("   2. Lihat daftar dokter");
+        System.out.println("   3. Lihat daftar pasien");
+        System.out.println("   4. Buat janji temu");
+        System.out.println("   5. Lihat daftar janji temu");
+        System.out.println("   6. Ubah status janji temu");
+        System.out.println("   7. Periksa pasien & buat resep");
+        System.out.println("   8. Lihat rekam medis pasien");
+        System.out.println("   0. Keluar");
+        System.out.println("-".repeat(46));
+    }
 
-        System.out.println("\n--- Interface Pelayanan (lakukanKegiatan & default method) ---");
-        for (Orang o : daftarOrang) {
-            if (o instanceof Pelayanan) {
-                Pelayanan p = (Pelayanan) o;
-                p.lakukanKegiatan();
-                p.tampilkanJadwal(); // Pasien: default method, Dokter: override
+    // ---------------- Fitur klinik ----------------
+
+    private static void daftarkanPasien() {
+        Tampilan.judul("Daftarkan pasien");
+        String nama = Input.teks(" Nama          : ");
+        int umur = Input.angka(" Umur          : ", 0, 130);
+        String kelamin = Input.jenisKelamin();
+        String keluhan = Input.teks(" Keluhan       : ");
+
+        String id = String.format("P%03d", DataKlinik.daftarPasien.size() + 1);
+        Pasien pasien = new Pasien(id, nama, umur, kelamin, keluhan);
+        DataKlinik.daftarPasien.add(pasien);
+        Tampilan.sukses("Pasien berhasil didaftarkan dengan ID " + id + ".");
+        Tampilan.konsep("Composition. RekamMedis dibuat otomatis di constructor Pasien.");
+    }
+
+    private static void lihatDokter() {
+        Tampilan.judul("Daftar dokter");
+        for (Dokter d : DataKlinik.daftarDokter) {
+            d.tampilkanInfo();
+        }
+    }
+
+    private static void lihatPasien() {
+        Tampilan.judul("Daftar pasien");
+        if (DataKlinik.daftarPasien.isEmpty()) {
+            Tampilan.info("Belum ada pasien terdaftar.");
+            return;
+        }
+        for (Pasien p : DataKlinik.daftarPasien) {
+            p.tampilkanInfo();
+        }
+    }
+
+    private static void buatJanjiTemu() {
+        Tampilan.judul("Buat janji temu");
+        Pasien pasien = DataKlinik.pilihPasien();
+        if (pasien == null) return;
+        Dokter dokter = DataKlinik.pilihDokter();
+        String tanggal = Input.teks(" Tanggal (mis. 22 Oktober 2026): ");
+        String jam = Input.teks(" Jam (mis. 10.00): ");
+
+        String id = String.format("JT%03d", DataKlinik.daftarJanji.size() + 1);
+        JanjiTemu janji = new JanjiTemu(id, pasien, dokter, tanggal, jam);
+        DataKlinik.daftarJanji.add(janji);
+
+        if (!dokter.punyaPasien(pasien)) {
+            dokter.tambahPasien(pasien);
+        }
+        Tampilan.sukses("Janji temu berhasil dibuat.");
+        janji.tampilkanDetail();
+        Tampilan.konsep("Aggregation. Pasien dibuat terpisah, lalu dititipkan ke Dokter.");
+    }
+
+    private static void lihatJanjiTemu() {
+        Tampilan.judul("Daftar janji temu");
+        if (DataKlinik.daftarJanji.isEmpty()) {
+            Tampilan.info("Belum ada janji temu.");
+            return;
+        }
+        for (JanjiTemu j : DataKlinik.daftarJanji) {
+            j.tampilkanDetail();
+        }
+    }
+
+    private static void ubahStatusJanji() {
+        Tampilan.judul("Ubah status janji temu");
+        if (DataKlinik.daftarJanji.isEmpty()) {
+            Tampilan.info("Belum ada janji temu.");
+            return;
+        }
+        System.out.println();
+        for (int i = 0; i < DataKlinik.daftarJanji.size(); i++) {
+            JanjiTemu j = DataKlinik.daftarJanji.get(i);
+            System.out.println(" " + (i + 1) + ". " + j.getIdJanjiTemu() + " - "
+                    + j.getPasien().getNama() + " (" + j.getStatus() + ")");
+        }
+        int no = Input.angka(" Pilih janji temu: ", 1, DataKlinik.daftarJanji.size());
+        JanjiTemu janji = DataKlinik.daftarJanji.get(no - 1);
+        int aksi = Input.angka(" 1 = Selesaikan, 2 = Batalkan: ", 1, 2);
+        if (aksi == 1) {
+            janji.selesaikanJanjiTemu();
+        } else {
+            janji.batalkanJanjiTemu();
+        }
+    }
+
+    private static void periksaDanResep() {
+        Tampilan.judul("Periksa pasien & resep");
+        Pasien pasien = DataKlinik.pilihPasien();
+        if (pasien == null) return;
+        Dokter dokter = DataKlinik.pilihDokter();
+
+        String diagnosis = Input.teks(" Diagnosis: ");
+        System.out.println();
+        dokter.periksa(pasien, diagnosis);
+        Tampilan.konsep("Association. Dokter hanya memakai Pasien sesaat.");
+
+        String jawab = Input.teks("\n Buat resep? (y/n): ");
+        if (!jawab.equalsIgnoreCase("y")) return;
+
+        String obat = Input.teks(" Nama obat: ");
+        int jumlah = Input.angka(" Jumlah (maks " + Peresep.MAKS_JUMLAH_OBAT
+                + ", coba 25 untuk uji exception): ");
+        String catatan = Input.teksOpsional(" Catatan (kosongkan jika tidak ada): ");
+
+        System.out.println();
+        try {
+            if (catatan.isEmpty()) {
+                dokter.berikanResep(pasien.getNama(), obat, jumlah);
+            } else {
+                dokter.berikanResep(pasien.getNama(), obat, jumlah, catatan);
             }
-        }
-
-        System.out.println("\n--- Interface Peresep + Overloading ---");
-        Dokter dokterResep = (Dokter) daftarOrang[0]; // downcasting
-        try {
-            dokterResep.berikanResep("Siti Rahma", "Paracetamol", 6);              // 3 parameter
-            dokterResep.berikanResep("Andi Wijaya", "Amoxicillin", 8,              // 4 parameter
-                    "Habiskan sesuai anjuran. Maksimal " + Peresep.MAKS_JUMLAH_OBAT + " per resep.");
+            pasien.getRekamMedis().tambahCatatan("Resep: " + obat + " x" + jumlah);
+            Tampilan.sukses("Resep tercatat di rekam medis.");
         } catch (ResepTidakValidException e) {
-            System.out.println("Gagal membuat resep: " + e.getMessage());
-        }
-
-        // ==================================================
-        // PERTEMUAN 8: EXCEPTION HANDLING & RELASI ANTAR-OBJEK
-        // ==================================================
-        System.out.println("\n========================================");
-        System.out.println(" DEMO EXCEPTION & RELASI ANTAR-OBJEK ");
-        System.out.println("========================================");
-
-        // Aggregation: Pasien dibuat terpisah, lalu "dititipkan" ke Dokter
-        System.out.println("\n--- Aggregation (Dokter - Pasien) ---");
-        dokter1.tambahPasien(pasien1);
-        dokter1.tambahPasien(pasien2);
-        dokter1.tampilkanDaftarPasien();
-
-        // Association: Dokter memakai Pasien sesaat
-        System.out.println("\n--- Association (dokter memeriksa pasien) ---");
-        dokter1.periksa(pasien1, "Infeksi saluran pernapasan atas");
-
-        // Composition: RekamMedis milik pasien
-        System.out.println("\n--- Composition (Pasien - RekamMedis) ---");
-        pasien1.tampilkanRekamMedis();
-
-        // try-catch-finally dengan custom exception
-        System.out.println("\n--- try-catch-finally: custom exception ---");
-        try {
-            dokter1.berikanResep("Siti Rahma", "Paracetamol", 6);
-            dokter1.berikanResep("Andi Wijaya", "Amoxicillin", 25, "Dosis berlebih"); // melempar exception
-            System.out.println("Baris ini tidak dijalankan karena exception di atas.");
-        } catch (ResepTidakValidException e) {
-            System.out.println("Gagal membuat resep: " + e.getMessage());
+            Tampilan.gagal("Resep ditolak. " + e.getMessage());
         } finally {
-            System.out.println("Proses peresepan selesai.");
+            Tampilan.info("Proses peresepan selesai.");
         }
+        Tampilan.konsep("try-catch-finally dengan custom exception.");
+    }
 
-        // Multi-catch: dari yang paling spesifik ke paling umum
-        System.out.println("\n--- Multi-catch (exception bawaan Java) ---");
-        try {
-            int[] data = {1, 2, 3};
-            System.out.println(data[5]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Indeks array di luar jangkauan.");
-        } catch (Exception e) {
-            System.out.println("Terjadi kesalahan umum: " + e.getMessage());
-        } finally {
-            System.out.println("Selesai memproses data.");
-        }
-
-        try {
-            int hasil = 10 / 0;
-            System.out.println(hasil);
-        } catch (ArithmeticException e) {
-            System.out.println("Terjadi kesalahan: " + e.getMessage());
-        } finally {
-            System.out.println("Blok finally selalu dijalankan.");
-        }
+    private static void lihatRekamMedis() {
+        Tampilan.judul("Rekam medis pasien");
+        Pasien pasien = DataKlinik.pilihPasien();
+        if (pasien == null) return;
+        pasien.tampilkanRekamMedis();
     }
 }

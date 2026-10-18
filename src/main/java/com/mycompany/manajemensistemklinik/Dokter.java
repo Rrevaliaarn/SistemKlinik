@@ -3,12 +3,6 @@ package com.mycompany.manajemensistemklinik;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Dokter: extends Orang, implements Pelayanan & Peresep.
- * AGGREGATION : daftarPasien (Pasien dibuat di luar, bisa berdiri sendiri).
- * ASSOCIATION : periksa(Pasien) hanya memakai Pasien sesaat.
- * THROW/THROWS: berikanResep() melempar ResepTidakValidException.
- */
 public class Dokter extends Orang implements Pelayanan, Peresep {
     private String idDokter;
     private String spesialisasi;
@@ -34,11 +28,10 @@ public class Dokter extends Orang implements Pelayanan, Peresep {
 
     @Override
     public void tampilkanInfo() {
-        System.out.println("=== Data Dokter ===");
-        System.out.println("ID       : " + idDokter);
+        Tampilan.subjudul("Data Dokter " + idDokter);
         super.tampilkanInfo();
-        System.out.println("Spesialis: " + spesialisasi);
-        System.out.println("Jadwal   : " + jadwalPraktik);
+        Tampilan.baris("Spesialisasi", spesialisasi);
+        Tampilan.baris("Jadwal", jadwalPraktik);
     }
 
     @Override
@@ -48,15 +41,14 @@ public class Dokter extends Orang implements Pelayanan, Peresep {
 
     @Override
     public void lakukanKegiatan() {
-        System.out.println("dr. " + getNama() + " sedang memeriksa pasien (" + spesialisasi + ").");
+        Tampilan.info("dr. " + getNama() + " sedang memeriksa pasien (" + spesialisasi + ").");
     }
 
     @Override
     public void tampilkanJadwal() {
-        System.out.println("Jadwal praktik dr. " + getNama() + ": " + jadwalPraktik);
+        Tampilan.info("Jadwal praktik dr. " + getNama() + ": " + jadwalPraktik);
     }
 
-    // throws: method berpotensi melempar checked exception
     @Override
     public void berikanResep(String namaPasien, String obat, int jumlah)
             throws ResepTidakValidException {
@@ -64,15 +56,15 @@ public class Dokter extends Orang implements Pelayanan, Peresep {
             throw new ResepTidakValidException("Jumlah " + jumlah + " tidak valid untuk "
                     + namaPasien + ". Jumlah harus 1 - " + MAKS_JUMLAH_OBAT + ".");
         }
-        System.out.println("dr. " + getNama() + " meresepkan " + obat
-                + " x" + jumlah + " untuk " + namaPasien);
+        Tampilan.sukses("dr. " + getNama() + " meresepkan " + obat
+                + " x" + jumlah + " untuk " + namaPasien + ".");
     }
 
-    // Overloading
+    // Overloading: nama sama, parameter berbeda
     public void berikanResep(String namaPasien, String obat, int jumlah, String catatan)
             throws ResepTidakValidException {
         berikanResep(namaPasien, obat, jumlah);
-        System.out.println("Catatan: " + catatan);
+        Tampilan.baris("Catatan", catatan);
     }
 
     // Aggregation
@@ -80,18 +72,26 @@ public class Dokter extends Orang implements Pelayanan, Peresep {
         daftarPasien.add(pasien);
     }
 
+    public boolean punyaPasien(Pasien pasien) {
+        return daftarPasien.contains(pasien);
+    }
+
     public void tampilkanDaftarPasien() {
-        System.out.println("Daftar pasien dr. " + getNama() + ":");
-        for (Pasien p : daftarPasien) {
-            System.out.println("- " + p.getNama() + " (" + p.getKeluhan() + ")");
+        Tampilan.subjudul("Pasien dr. " + getNama());
+        if (daftarPasien.isEmpty()) {
+            Tampilan.info("Belum ada pasien.");
+            return;
+        }
+        for (int i = 0; i < daftarPasien.size(); i++) {
+            Pasien p = daftarPasien.get(i);
+            Tampilan.baris("Pasien " + (i + 1), p.getNama() + " (" + p.getKeluhan() + ")");
         }
     }
 
-    // Association: Pasien hanya dipakai sesaat, tidak disimpan
     public void periksa(Pasien pasien, String diagnosis) {
-        System.out.println("dr. " + getNama() + " memeriksa " + pasien.getNama()
-                + " -> diagnosis: " + diagnosis);
-        pasien.getRekamMedis().tambahCatatan(diagnosis);
+        Tampilan.sukses("dr. " + getNama() + " memeriksa " + pasien.getNama()
+                + ". Diagnosis: " + diagnosis);
+        pasien.getRekamMedis().tambahCatatan("Diagnosis: " + diagnosis);
     }
 
     public String getIdDokter() {
@@ -108,7 +108,7 @@ public class Dokter extends Orang implements Pelayanan, Peresep {
 
     public void setSpesialisasi(String spesialisasi) {
         if (spesialisasi == null || spesialisasi.trim().isEmpty()) {
-            System.out.println("Spesialisasi tidak boleh kosong. Tidak diubah.");
+            Tampilan.gagal("Spesialisasi tidak boleh kosong. Tidak diubah.");
             return;
         }
         this.spesialisasi = spesialisasi;

@@ -1,13 +1,9 @@
 package com.mycompany.manajemensistemklinik;
 
-/**
- * Subclass Orang + implementasi interface Pelayanan.
- * COMPOSITION: RekamMedis dibuat di constructor dan bersifat final.
- */
 public class Pasien extends Orang implements Pelayanan {
     private String idPasien;
     private String keluhan;
-    private final RekamMedis rekamMedis; // Composition
+    private final RekamMedis rekamMedis;
 
     public Pasien() {
         super();
@@ -20,15 +16,14 @@ public class Pasien extends Orang implements Pelayanan {
         super(nama, umur, jenisKelamin);
         this.idPasien = idPasien;
         this.keluhan = keluhan;
-        this.rekamMedis = new RekamMedis("RM-" + idPasien); // dibuat bersamaan dengan pasien
+        this.rekamMedis = new RekamMedis("RM-" + idPasien);
     }
 
     @Override
     public void tampilkanInfo() {
-        System.out.println("=== Data Pasien ===");
-        System.out.println("ID       : " + idPasien);
+        Tampilan.subjudul("Data Pasien " + idPasien);
         super.tampilkanInfo();
-        System.out.println("Keluhan  : " + keluhan);
+        Tampilan.baris("Keluhan", keluhan);
     }
 
     @Override
@@ -38,7 +33,7 @@ public class Pasien extends Orang implements Pelayanan {
 
     @Override
     public void lakukanKegiatan() {
-        System.out.println(getNama() + " sedang menunggu pemeriksaan (keluhan: " + keluhan + ").");
+        Tampilan.info(getNama() + " sedang menunggu pemeriksaan (keluhan: " + keluhan + ").");
     }
 
     public void tampilkanRekamMedis() {
